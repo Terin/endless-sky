@@ -26238,6 +26238,9 @@ planet Allhome
 	spaceport `In the spaceport, a handful of human merchants and colonists wander about amid throngs of Hai - vaguely squirrel-like aliens who are somewhat shorter than the average human being, but make up for it with an abundance of energy. You feel a little bit like an adult wading through a sea of hyperactive children as you try to locate the commodity exchange and the other services offered here.`
 	outfitter "Hai Basics"
 	security 0.6
+	tribute 800
+		threshold 4000
+		fleet "Large Hai Defense" 6
 
 planet "Alta Hai"
 	attributes quarg station
@@ -26693,6 +26696,9 @@ planet Cloudfire
 	shipyard "Hai Basics"
 	outfitter "Hai Intermediate"
 	security 0.9
+	tribute 1000
+		threshold 6000
+		fleet "Large Hai Defense" 20
 
 planet "Cold Horizon"
 	attributes saryd tourism
@@ -26786,6 +26792,9 @@ planet Darkmetal
 	description `Darkmetal is a cold, dry mining world, the source of much of the heavy metals that are used in Hai space. A haze of slightly radioactive dust hangs in the sky whenever it has been more than a week since the last rainstorm. Most of the mining is carried out by slow-moving vehicles the size of a small city, which ingest layers of dirt and bedrock, crush it to extract any valuable elements, then mix the remaining material with water to form a cement-like slurry that can be extruded in solid blocks, to reduce the amount of additional dust that is added to the atmosphere.`
 	spaceport `The spaceport is hermetically sealed, with gantry tubes that can adapt to fit the hatches of human ships as well as Hai. The seal is to keep radioactive dust out of the living spaces, but its purpose is primarily to reduce the long-term exposure of the station's permanent inhabitants; for visitors, the risks are minimal.`
 	security 0.2
+	tribute 400
+		threshold 3000
+		fleet "Small Hai Defense" 13
 
 planet Darkstone
 	attributes south farming frontier
@@ -26932,6 +26941,9 @@ planet Dustmaker
 	description `The surface of this planet, when it is not obscured by dust storms, receives enough sunlight to power not only large solar farms, but solar furnaces as well, which the Hai use for manufacturing a large variety of goods. Some of the solar farms are so large that from orbit, the light reflecting off them could almost be mistaken for lakes and small oceans. However, there is almost no water on the planet's surface except near the poles.`
 	spaceport `Like most Hai architecture, the spaceport is made of bare, unpainted metal, so weathered that you would not be surprised to learn that it is tens of thousands of years old. Tall, curved walls around the outskirts of the port create a sort of labyrinth with the port building itself at the center; they are probably intended to block sandstorms while allowing gentler breezes to pass through.`
 	security 0.2
+	tribute 500
+		threshold 2500
+		fleet "Small Hai Defense" 9
 
 planet "Dwelling of Speloog"
 	attributes arach shipping urban
@@ -27122,6 +27134,9 @@ planet Farwater
 	description `In human space, this system would probably have been left unsettled, because its sun produces too much ultraviolet radiation for animals to survive for long on its surface. But the Hai have instead turned this warm ocean world into a massive incubator for photosynthetic algae and bacteria. Each species is genetically engineered to produce one or more medical or nutritional compounds that they can make use of. Barges travel slowly through the oceans harvesting these microorganisms out of the water and separating out the chemical compounds they provide.`
 	spaceport `The spaceport appears to have been built by expanding a natural set of caves in a cliff facing the ocean. At high tide the lower caves flood, allowing barges to dock and unload the compounds they have harvested. Tunnels lead deep into the rock to rooms that have been carved out as warehouse space and living quarters. The rock remains somewhat cool, even at midday, but the air is still oppressively humid.`
 	security 0.2
+	tribute 600
+		threshold 3000
+		fleet "Small Hai Defense" 8
 
 planet Featherweight
 	attributes north research frontier
@@ -27259,6 +27274,9 @@ planet Frostmark
 	description `There are several large Hai cities near the equator on Frostmark, but much of the planet's surface is cold and uninhabited except by herds of extremely large, six-legged herbivores, and other equally large and frightening animals that prey on them.`
 	spaceport `Every Hai city has an appearance of great age and permanence, but this one, even more so. In Hai cities, transport vehicles carry freight and passengers along underground passages or elevated railways, while the pathways at ground level are reserved for foot traffic. Here, millennia of foot traffic have rounded off the corners of every metal staircase, and polished the railings as smooth as glass. The Hai locals do not seem to have trouble keeping their footing, but you wish your shoes gave you more traction.`
 	security 0.2
+	tribute 400
+		threshold 2000
+		fleet "Small Hai Defense" 7
 
 planet Furnace
 	attributes core military moon
@@ -27338,6 +27356,9 @@ planet Giverstone
 	shipyard "Hai Intermediate"
 	outfitter "Hai Intermediate"
 	security 0.2
+	tribute 700
+		threshold 3500
+		fleet "Small Hai Defense" 10
 
 planet Glaze
 	attributes south tourism
@@ -27398,6 +27419,9 @@ planet Greenbloom
 	description `The islands and continents on this planet are almost entirely covered in marshes, rainforests, and (near the poles) dense coniferous forests, and the oceans appear green from above due to thick algae blooms and floating kelp mats. The overabundance of flora is caused by Greenbloom's major volcanoes, which constantly spew carbon dioxide into the atmosphere.`
 	spaceport `The spaceport is a massive floating island built by the Hai - a network of hexagonal platforms, each roughly half a kilometer in diameter, linked by bridges that can bend to accommodate the platforms rising and falling in rough weather. You are not sure what sort of alloy the platforms are built from, but judging by the fact that some of them have coral colonies growing on their edges, they can probably last for centuries without requiring any maintenance.`
 	security 0.1
+	tribute 300
+		threshold 2000
+		fleet "Small Hai Defense" 6
 
 planet Greenrock
 	attributes pirate "south pirate" south frontier
@@ -27430,6 +27454,9 @@ planet Greenwater
 	shipyard "Hai Basics"
 	outfitter "Hai Basics"
 	security 0.4
+	tribute 800
+		threshold 3000
+		fleet "Large Hai Defense" 5
 
 planet "Gresku Fodar"
 	attributes korath station
@@ -27448,6 +27475,9 @@ planet Hai-home
 	"required reputation" 100
 	bribe 0
 	security 0.4
+	tribute 8500
+		threshold 8193
+		fleet "Large Hai Defense" 40
 
 planet "Hammer of Debrugt"
 	attributes arach mining shipping urban
@@ -27522,6 +27552,9 @@ planet Heartvalley
 	shipyard "Hai Basics"
 	outfitter "Hai Basics"
 	security 0.1
+	tribute 800
+		threshold 3000
+		fleet "Large Hai Defense" 7
 
 planet Helheim
 	attributes deep mining volcanic
@@ -27666,6 +27699,9 @@ planet Icelake
 	shipyard "Hai Intermediate"
 	outfitter "Hai Advanced"
 	security 0.3
+	tribute 1200
+		threshold 5000
+		fleet "Large Hai Defense" 14
 
 planet Ingot
 	attributes "dirt belt" volcanic mining moon
@@ -27949,6 +27985,9 @@ planet Makerplace
 	shipyard "Hai Intermediate"
 	outfitter "Hai Advanced"
 	security 0.2
+	tribute 1000
+		threshold 3000
+		fleet "Large Hai Defense" 8
 
 planet Mani
 	attributes deep moon
@@ -28092,6 +28131,9 @@ planet Mirrorlake
 	description `The Hai homeworld is orbited by a moon that is large and dense enough to have been able to hold on to its own supply of surface water, and although the atmosphere is cold, much of that water is in liquid form due to the strong tides. In a few places, granite and basalt cliffs rise out of the water, and the Hai have built a few small settlements on the moon, as well.`
 	spaceport `This spaceport appears to be a tourist destination. The architecture is different than on other Hai worlds, and much more primitive: stone and mortar instead of polished metal. However, all the buildings are in good repair: despite their ancient appearance, they must be maintained and rebuilt on a regular basis.`
 	security 0.2
+	tribute 2000
+		threshold 6000
+		fleet "Large Hai Defense" 10
 
 planet Moonshake
 	attributes core urban factory
@@ -28361,6 +28403,9 @@ planet Newhome
 	spaceport `	Most of the shops only sell clothing made for the Hai, but a few enterprising artisans have begun making clothing for humans as well: larger dimensions, and no tail holes in the pants.`
 	outfitter "Hai Basics"
 	security 0.2
+	tribute 1100
+		threshold 4000
+		fleet "Large Hai Defense" 10
 
 planet Nifel
 	attributes deep research medical
@@ -29059,6 +29104,9 @@ planet Skyfarm
 	description `Due to the low gravity here, some of the alien crops planted by the Hai grow to heights of five meters or more. The air is too thin for humans or Hai to breathe without carrying supplemental oxygen tanks, so the population is very small. The fields are tended by enormous spider-like robots which are equipped not only for irrigation and harvesting, but also for pollination, since the thin atmosphere has made it impossible for native insects to evolve here.`
 	spaceport `The spaceport is a small city built under a pressurized glass dome, with a ring of hangars and landing pads around its periphery. As with most Hai architecture, the dome and the buildings within it are simple and sparsely decorated, but as you walk through the city everything feels very solid, and ancient. Everything is metal, even the roads and walkways, and the center of many of the roads dips down slightly due to millennia of foot traffic slowly wearing down the metal.`
 	security 0.2
+	tribute 300
+		threshold 1500
+		fleet "Small Hai Defense" 6
 
 planet Skymoot
 	attributes rim tourism
@@ -29106,6 +29154,9 @@ planet Snowfeather
 	spaceport `The core of the spaceport is two rows of hangars, back to back. Their thick metal roofs slope backwards, away from the entrance to each hangar, so that any snow or ice that slides off the roofs will not fall across the opening while ships or people are passing through. The hangars are also elevated about six meters above the ground, to protect against flash floods.`
 	outfitter "Hai Basics"
 	security 0.2
+	tribute 500
+		threshold 2000
+		fleet "Small Hai Defense" 9
 
 planet Solace
 	attributes south urban factory frontier
@@ -29197,6 +29248,9 @@ planet Stonebreak
 	shipyard "Hai Intermediate"
 	outfitter "Hai Intermediate"
 	security 0.3
+	tribute 1400
+		threshold 4000
+		fleet "Large Hai Defense" 11
 
 planet Stormhold
 	attributes pirate "core pirate" core frontier

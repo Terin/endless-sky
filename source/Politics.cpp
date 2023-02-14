@@ -352,7 +352,6 @@ void Politics::SetReputation(const Government *gov, double value)
 
 void Politics::CalculateMultipliers(const Government *gov)
 {
-	double ratio;
 	if(reputationWith[gov] < gov-> ReputationMaxDeadzone() && reputationWith[gov] > gov->ReputationMinDeadzone())
 		return ResetMultipliers(gov);
 	else
@@ -363,7 +362,7 @@ void Politics::CalculateMultipliers(const Government *gov)
 			|| (gov->ReputationMin() == numeric_limits<double>::lowest() && !max))
 			return ResetMultipliers(gov);
 
-		ratio = abs(reputationWith[gov] / (max ? gov->ReputationMax() : gov->ReputationMin()));
+		double ratio = abs(reputationWith[gov] / (max ? gov->ReputationMax() : gov->ReputationMin()));
 		reputationGainMultiplier[gov] = (max ? (((gov->ReputationMaxGainMultiplier() - 1.) * ratio) + 1.)
 			: (((gov->ReputationMinGainMultiplier() - 1.) * ratio) + 1.));
 		reputationLossMultiplier[gov] = (max ? (((gov->ReputationMaxLossMultiplier() - 1.) * ratio) + 1.)

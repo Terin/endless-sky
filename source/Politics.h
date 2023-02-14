@@ -64,6 +64,8 @@ public:
 	double Reputation(const Government *gov) const;
 	void AddReputation(const Government *gov, double value);
 	void SetReputation(const Government *gov, double value);
+	void CalculateMultipliers(const Government *gov);
+	void ResetMultipliers(const Government *gov);
 
 	// Reset any temporary effects (typically because a day has passed).
 	void ResetDaily();
@@ -76,6 +78,8 @@ private:
 	// because Republic ships will help a merchant under attack does not mean
 	// that merchants will come to the aid of Republic ships.
 	std::map<const Government *, double> reputationWith;
+	std::map<const Government *, double> reputationGainMultiplier;
+	std::map<const Government *, double> reputationLossMultiplier;
 	std::set<const Government *> provoked;
 	std::set<const Government *> bribed;
 	std::map<const Planet *, bool> bribedPlanets;

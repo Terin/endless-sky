@@ -135,9 +135,9 @@ void Politics::Offend(const Government *gov, int eventType, int count)
 			// influencing their reputation with the other.
 			double penalty = (count * weight) * other->PenaltyFor(eventType, gov);
 			if(eventType & ShipEvent::ATROCITY && weight > 0)
-				reputationWith[other] = min(0., reputationWith[other]);
+				Politics::SetReputation(other, min(0., reputationWith[other]));
 
-			reputationWith[other] -= penalty;
+			Politics::AddReputation(other, -penalty);
 		}
 	}
 }
@@ -333,14 +333,50 @@ double Politics::Reputation(const Government *gov) const
 
 void Politics::AddReputation(const Government *gov, double value)
 {
-	reputationWith[gov] += value;
+	SetReputation(gov, reputationWith[gov] + value);
 }
 
 
 
 void Politics::SetReputation(const Government *gov, double value)
 {
+	value = min(value, gov->ReputationMax());
+	value = max(value, gov->ReputationMin());
+	CalculateMultipliers(gov);
+	value > 0 ? reputationWith[gov] = value * reputationGainMultiplier[gov]
+		: reputationWith[gov] = value * reputationLossMultiplier[gov];
 	reputationWith[gov] = value;
+}
+
+
+
+void Politics::CalculateMultipliers(const Government *gov)
+{
+	double ratio;
+	if(reputationWith[gov] < gov-> ReputationMaxDeadzone() && reputationWith[gov] > gov->ReputationMinDeadzone())
+		return ResetMultipliers(gov);
+	else
+	{
+		bool max = (reputationWith[gov] > gov->ReputationMaxDeadzone());
+
+		if((gov->ReputationMax() == numeric_limits<double>::max() && max)
+			|| (gov->ReputationMin() == numeric_limits<double>::lowest() && !max))
+			return ResetMultipliers(gov);
+
+		ratio = abs(reputationWith[gov] / (max ? gov->ReputationMax() : gov->ReputationMin()));
+		reputationGainMultiplier[gov] = (max ? (((gov->ReputationMaxGainMultiplier() - 1.) * ratio) + 1.)
+			: (((gov->ReputationMinGainMultiplier() - 1.) * ratio) + 1.));
+		reputationLossMultiplier[gov] = (max ? (((gov->ReputationMaxLossMultiplier() - 1.) * ratio) + 1.)
+			: (((gov->ReputationMinLossMultiplier() - 1.) * ratio) + 1.));
+	}
+}
+
+
+
+void Politics::ResetMultipliers(const Government *gov)
+{
+	reputationGainMultiplier[gov] = 1.;
+	reputationLossMultiplier[gov] = 1.;
 }
 
 

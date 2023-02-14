@@ -20,6 +20,7 @@ this program. If not, see <https://www.gnu.org/licenses/>.
 #include "ExclusiveItem.h"
 #include "LocationFilter.h"
 
+#include <limits>
 #include <map>
 #include <set>
 #include <string>
@@ -138,6 +139,14 @@ public:
 
 	// Get or set the player's reputation with this government.
 	double Reputation() const;
+	double ReputationMax() const;
+	double ReputationMin() const;
+	double ReputationMaxGainMultiplier() const;
+	double ReputationMinGainMultiplier() const;
+	double ReputationMaxLossMultiplier() const;
+	double ReputationMinLossMultiplier() const;
+	double ReputationMaxDeadzone() const;
+	double ReputationMinDeadzone() const;
 	void AddReputation(double value) const;
 	void SetReputation(double value) const;
 
@@ -159,6 +168,14 @@ private:
 	std::set<const Government *> trusted;
 	std::map<unsigned, std::map<int, double>> customPenalties;
 	double initialPlayerReputation = 0.;
+	double reputationMax = std::numeric_limits<double>::max();
+	double reputationMin = std::numeric_limits<double>::lowest();
+	double maxGainMultiplier = 1.;
+	double minGainMultiplier = 1.;
+	double maxLossMultiplier = 1.;
+	double minLossMultiplier = 1.;
+	double maxDeadzone = 0.;
+	double minDeadzone = 0.;
 	std::map<int, double> penaltyFor;
 	std::map<const Outfit*, int> illegals;
 	std::map<const Outfit*, bool> atrocities;

@@ -164,6 +164,10 @@ void Government::Load(const DataNode &node)
 		{
 			if(key == "provoked on scan")
 				provokedOnScan = false;
+			else if(key == "reputation max")
+				reputationMax = numeric_limits<double>::max();
+			else if(key == "reputation min")
+				reputationMax = numeric_limits<double>::lowest();
 			else if(key == "raid")
 				raidFleets.clear();
 			else if(key == "display name")
@@ -230,6 +234,33 @@ void Government::Load(const DataNode &node)
 					const Government *gov = GameData::Governments().Get(grand.Token(0));
 					attitudeToward.resize(nextID, 0.);
 					attitudeToward[gov->id] = grand.Value(1);
+				}
+				else
+					grand.PrintTrace("Skipping unrecognized attribute:");
+			}
+		}
+		else if(key == "reputation")
+		{
+			for(const DataNode &grand : child)
+			{
+				if(grand.Token(0) == "player reputation" && grand.Size() >= 2)
+					initialPlayerReputation = add ? initialPlayerReputation + child.Value(valueIndex) : child.Value(valueIndex);
+				else if(grand.Token(0) == "max" && grand.Size() >= 2)
+					reputationMax = add ? reputationMax + grand.Value(valueIndex) : grand.Value(valueIndex);
+				else if(grand.Token(0) == "min" && grand.Size() >= 2)
+					reputationMin = add ? reputationMin + grand.Value(valueIndex) : grand.Value(valueIndex);
+				else if(grand.Token(0) == "max gain multiplier" && grand.Size() >= 2)
+					maxGainMultiplier = add ? maxGainMultiplier + grand.Value(valueIndex) : grand.Value(valueIndex);
+				else if(grand.Token(0) == "min gain multiplier" && grand.Size() >= 2)
+					minGainMultiplier = add ? minGainMultiplier + grand.Value(valueIndex) : grand.Value(valueIndex);
+				else if(grand.Token(0) == "max loss multiplier" && grand.Size() >= 2)
+					maxLossMultiplier = add ? maxLossMultiplier + grand.Value(valueIndex) : grand.Value(valueIndex);
+				else if(grand.Token(0) == "min loss multiplier" && grand.Size() >= 2)
+					minLossMultiplier = add ? minLossMultiplier + grand.Value(valueIndex) : grand.Value(valueIndex);
+				else if(grand.Token(0) == "deadzone" && grand.Size() >= 3)
+				{
+					maxDeadzone = add ? maxDeadzone + grand.Value(valueIndex) : grand.Value(valueIndex);
+					minDeadzone = add ? minDeadzone + grand.Value(valueIndex + 1) : grand.Value(valueIndex + 1);
 				}
 				else
 					grand.PrintTrace("Skipping unrecognized attribute:");
@@ -323,6 +354,10 @@ void Government::Load(const DataNode &node)
 			child.PrintTrace("Error: Expected key to have a value:");
 		else if(key == "player reputation")
 			initialPlayerReputation = add ? initialPlayerReputation + child.Value(valueIndex) : child.Value(valueIndex);
+		else if(key == "reputation max")
+			reputationMax = add ? reputationMax + child.Value(valueIndex) : child.Value(valueIndex);
+		else if(key == "reputation min")
+			reputationMin = add ? reputationMin + child.Value(valueIndex) : child.Value(valueIndex);
 		else if(key == "crew attack")
 			crewAttack = max(0., add ? child.Value(valueIndex) + crewAttack : child.Value(valueIndex));
 		else if(key == "crew defense")
@@ -365,6 +400,12 @@ void Government::Load(const DataNode &node)
 		else
 			child.PrintTrace("Skipping unrecognized attribute:");
 	}
+
+	// Ensure reputation minimum is not above the
+	// maximum, and set reputation again to enforce limtis.
+	if(reputationMin > reputationMax)
+		reputationMin = reputationMax;
+	SetReputation(Reputation());
 
 	// Default to the standard disabled hail messages.
 	if(!friendlyDisabledHail)
@@ -636,6 +677,20 @@ double Government::Reputation() const
 
 
 
+double Government::ReputationMax() const
+{
+	return reputationMax;
+}
+
+
+
+double Government::ReputationMin() const
+{
+	return reputationMin;
+}
+
+
+
 void Government::AddReputation(double value) const
 {
 	GameData::GetPolitics().AddReputation(this, value);
@@ -646,6 +701,48 @@ void Government::AddReputation(double value) const
 void Government::SetReputation(double value) const
 {
 	GameData::GetPolitics().SetReputation(this, value);
+}
+
+
+
+double Government::ReputationMaxGainMultiplier() const
+{
+	return maxGainMultiplier;
+}
+
+
+
+double Government::ReputationMinGainMultiplier() const
+{
+	return minGainMultiplier;
+}
+
+
+
+double Government::ReputationMaxLossMultiplier() const
+{
+	return maxLossMultiplier;
+}
+
+
+
+double Government::ReputationMinLossMultiplier() const
+{
+	return minLossMultiplier;
+}
+
+
+
+double Government::ReputationMaxDeadzone() const
+{
+	return maxDeadzone;
+}
+
+
+
+double Government::ReputationMinDeadzone() const
+{
+	return minDeadzone;
 }
 
 

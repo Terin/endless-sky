@@ -1118,6 +1118,10 @@ government "Syndicate"
 	color "governments: Syndicate"
 	
 	"player reputation" 2
+	"reputation"
+		"max" 1000
+		"max gain multiplier" 0
+		"max loss multiplier" 5
 	"attitude toward"
 		"Merchant" .3
 		"Pirate" -.4

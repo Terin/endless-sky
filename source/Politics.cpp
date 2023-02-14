@@ -340,14 +340,16 @@ void Politics::AddReputation(const Government *gov, double value)
 
 void Politics::SetReputation(const Government *gov, double value)
 {
-	value = min(value, gov->ReputationMax());
-	value = max(value, gov->ReputationMin());
 	CalculateMultipliers(gov);
+	double newValue = value > 0 ? value * reputationGainMultiplier[gov]
+		: value * reputationLossMultiplier[gov];
 	value > 0 ? reputationWith[gov] = value * reputationGainMultiplier[gov]
 		: reputationWith[gov] = value * reputationLossMultiplier[gov];
-	reputationWith[gov] = value;
+	if(reputationWith[gov] > gov->ReputationMax())
+		reputationWith[gov] = gov->ReputationMax();
+	if(reputationWith[gov] < gov->ReputationMin())
+		reputationWith[gov] = gov->ReputationMin();
 }
-
 
 
 void Politics::CalculateMultipliers(const Government *gov)

@@ -652,8 +652,6 @@ void Engine::Step(bool isActive)
 				double width = min(it->Width(), it->Height());
 				statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
 					min(it->Hull(), it->DisabledHull()), max(20., width * .5), false);
-				statuses.emplace_back()
-
 			}
 			else if(it->GetPersonality().IsEscort() && Preferences::StatusOverlaysEscortSetting() != "off")
 			{
@@ -679,16 +677,9 @@ void Engine::Step(bool isActive)
 					continue;
 				double width = min(it->Width(), it->Height());
 				statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
-					min(it->Hull(), it->DisabledHull()), max(20., width * .5), false);
+					min(it->Hull(), it->DisabledHull()), max(20., width * .5), 2);
 
 			}
-			//if(isEnemy || it->IsYours() || it->GetPersonality().IsEscort())
-			//{
-				bool isEnemy = true;
-				double width = min(it->Width(), it->Height());
-				statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
-					min(it->Hull(), it->DisabledHull()), max(20., width * .5), isEnemy);
-			//}
 		}
 
 	// Create missile overlays.
@@ -1019,15 +1010,18 @@ void Engine::Draw() const
 
 	for(const auto &it : statuses)
 	{
-		static const Color color[8] = {
+		static const Color color[11] = {
 			*colors.Get("overlay friendly shields"),
 			*colors.Get("overlay hostile shields"),
+			*colors.Get("overlay neutral shields"),
 			*colors.Get("overlay outfit scan"),
 			*colors.Get("overlay friendly hull"),
 			*colors.Get("overlay hostile hull"),
+			*colors.Get("overlay neutral hull "),
 			*colors.Get("overlay cargo scan"),
 			*colors.Get("overlay friendly disabled"),
-			*colors.Get("overlay hostile disabled")
+			*colors.Get("overlay hostile disabled"),
+			*colors.Get("overlay neutral disabled")
 		};
 		Point pos = it.position * zoom;
 		double radius = it.radius * zoom;
@@ -1035,9 +1029,9 @@ void Engine::Draw() const
 			RingShader::Draw(pos, radius + 3., 1.5f, it.outer, color[it.type], 0.f, it.angle);
 		double dashes = (it.type >= 2) ? 0. : 20. * min(1., zoom);
 		if(it.inner > 0.)
-			RingShader::Draw(pos, radius, 1.5f, it.inner, color[3 + it.type], dashes, it.angle);
+			RingShader::Draw(pos, radius, 1.5f, it.inner, color[4 + it.type], dashes, it.angle);
 		if(it.disabled > 0.)
-			RingShader::Draw(pos, radius, 1.5f, it.disabled, color[6 + it.type], dashes, it.angle);
+			RingShader::Draw(pos, radius, 1.5f, it.disabled, color[8 + it.type], dashes, it.angle);
 	}
 
 	// Draw labels on missiles

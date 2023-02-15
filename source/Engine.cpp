@@ -645,7 +645,14 @@ void Engine::Step(bool isActive)
 			if(it->IsDestroyed())
 				continue;
 
-			if(it == player.FlagshipPtr() && Preferences::StatusOverlayFlagshipSetting() != "off")
+			if(it == player.FlagshipPtr())
+				EmplaceStatusOverlay(*it, Preferences::StatusOverlayFlagshipSetting(), 0);
+			else if(it->GetPersonality().IsEscort())
+				EmplaceStatusOverlay(*it, Preferences::StatusOverlaysEscortSetting(), 0);
+			else if(it->GetGovernment()->IsEnemy())
+				EmplaceStatusOverlay(*it, Preferences::StatusOverlaysEnemySetting(), 1);
+			else
+				EmplaceStatusOverlay(*it, Preferences::StatusOverlaysNeutralSetting(), 2);
 			{
 				if(Preferences::StatusOverlayFlagshipSetting() == "damaged" && !it->IsDamaged())
 					continue;
@@ -1017,7 +1024,7 @@ void Engine::Draw() const
 			*colors.Get("overlay outfit scan"),
 			*colors.Get("overlay friendly hull"),
 			*colors.Get("overlay hostile hull"),
-			*colors.Get("overlay neutral hull "),
+			*colors.Get("overlay neutral hull"),
 			*colors.Get("overlay cargo scan"),
 			*colors.Get("overlay friendly disabled"),
 			*colors.Get("overlay hostile disabled"),
@@ -2578,4 +2585,15 @@ Engine::Status::Status(const Point &position, double outer, double inner,
 	double disabled, double radius, int type, double angle)
 	: position(position), outer(outer), inner(inner), disabled(disabled), radius(radius), type(type), angle(angle)
 {
+}
+
+
+
+void Engine::EmplaceStatusOverlays(Ship it&, std::string setting&, int value)
+{
+	if(setting == "damaged" && !it->IsDamaged())
+		continue;
+	double width = min(it->Width(), it->Height());
+	statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
+		min(it->Hull(), it->DisabledHull()), max(20., width * .5), false);
 }

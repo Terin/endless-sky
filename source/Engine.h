@@ -154,6 +154,8 @@ private:
 		double angle;
 	};
 
+	void EmplaceStatusOverlay(const Ship &ship, const std::string &setting, int value);
+
 
 private:
 	PlayerInfo &player;

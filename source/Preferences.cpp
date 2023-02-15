@@ -49,6 +49,21 @@ namespace {
 	const vector<string> VSYNC_SETTINGS = {"off", "on", "adaptive"};
 	int vsyncIndex = 1;
 
+	const vector<string> STATUS_OVERLAYS_ALL = {"off", "damaged", "on", "--"};
+	int overlayAllIndex = 0;
+
+	const vector<string> STATUS_OVERLAYS_FLAGSHIP = {"off", "damaged", "on"};
+	int overlayFlagshipIndex = 0;
+
+	const vector<string> STATUS_OVERLAYS_ESCORT = {"off", "damaged", "on"};
+	int overlayEscortIndex = 0;
+
+	const vector<string> STATUS_OVERLAYS_ENEMY = {"off", "damaged", "on"};
+	int overlayEnemyIndex = 0;
+
+	const vector<string> STATUS_OVERLAYS_NEUTRAL = {"off", "damaged", "on"};
+	int overlayNeutralIndex = 0;
+
 	const vector<string> AUTO_AIM_SETTINGS = {"off", "always on", "when firing"};
 	int autoAimIndex = 2;
 
@@ -104,6 +119,8 @@ void Preferences::Load()
 			zoomIndex = max<int>(0, min<int>(node.Value(1), ZOOMS.size() - 1));
 		else if(node.Token(0) == "vsync")
 			vsyncIndex = max<int>(0, min<int>(node.Value(1), VSYNC_SETTINGS.size() - 1));
+		else if(node.Token(0) == "Show status overlays")
+			overlayAllIndex = max<int>(0, min<int>(node.Value(1), STATUS_OVERLAYS_ALL.size() - 1));
 		else if(node.Token(0) == "Automatic aiming")
 			autoAimIndex = max<int>(0, min<int>(node.Value(1), AUTO_AIM_SETTINGS.size() - 1));
 		else if(node.Token(0) == "Parallax background")
@@ -145,6 +162,11 @@ void Preferences::Save()
 	out.Write("boarding target", boardingIndex);
 	out.Write("view zoom", zoomIndex);
 	out.Write("vsync", vsyncIndex);
+	out.Write("Show status overlays", overlayAllIndex);
+	out.Write("Show flagship overlay", overlayFlagshipIndex);
+	out.Write("Show escort overlays", overlayEscortIndex);
+	out.Write("Show enemy overlays", overlayEnemyIndex);
+	out.Write("Show neutral overlays", overlayNeutralIndex);
 	out.Write("Automatic aiming", autoAimIndex);
 	out.Write("Parallax background", parallaxIndex);
 	out.Write("alert indicator", alertIndicatorIndex);
@@ -323,6 +345,91 @@ Preferences::VSync Preferences::VSyncState()
 const string &Preferences::VSyncSetting()
 {
 	return VSYNC_SETTINGS[vsyncIndex];
+}
+
+
+
+void Preferences::ToggleStatusOverlaysAll()
+{
+	int targetIndex = overlayAllIndex + 1;
+	if(targetIndex == static_cast<int>(STATUS_OVERLAYS_ALL.size()))
+		targetIndex = 0;
+	overlayAllIndex = targetIndex;
+}
+
+
+
+const string &Preferences::StatusOverlaysAllSetting()
+{
+	return STATUS_OVERLAYS_ALL[overlayAllIndex];
+}
+
+
+
+void Preferences::ToggleStatusOverlayFlagship()
+{
+	int targetIndex = overlayFlagshipIndex + 1;
+	if(targetIndex == static_cast<int>(STATUS_OVERLAYS_FLAGSHIP.size()))
+		targetIndex = 0;
+	overlayFlagshipIndex = targetIndex;
+}
+
+
+
+const string &Preferences::StatusOverlayFlagshipSetting()
+{
+	return STATUS_OVERLAYS_FLAGSHIP[overlayFlagshipIndex];
+}
+
+
+
+void Preferences::ToggleStatusOverlaysEscort()
+{
+	int targetIndex = overlayEscortIndex + 1;
+	if(targetIndex == static_cast<int>(STATUS_OVERLAYS_ESCORT.size()))
+		targetIndex = 0;
+	overlayEscortIndex = targetIndex;
+}
+
+
+
+const string &Preferences::StatusOverlaysEscortSetting()
+{
+	return STATUS_OVERLAYS_ESCORT[overlayEscortIndex];
+}
+
+
+
+void Preferences::ToggleStatusOverlaysEnemy()
+{
+	int targetIndex = overlayEnemyIndex + 1;
+	if(targetIndex == static_cast<int>(STATUS_OVERLAYS_ENEMY.size()))
+		targetIndex = 0;
+	overlayEnemyIndex = targetIndex;
+}
+
+
+
+const string &Preferences::StatusOverlaysEnemySetting()
+{
+	return STATUS_OVERLAYS_ENEMY[overlayEnemyIndex];
+}
+
+
+
+void Preferences::ToggleStatusOverlaysNeutral()
+{
+	int targetIndex = overlayNeutralIndex + 1;
+	if(targetIndex == static_cast<int>(STATUS_OVERLAYS_NEUTRAL.size()))
+		targetIndex = 0;
+	overlayNeutralIndex = targetIndex;
+}
+
+
+
+const string &Preferences::StatusOverlaysNeutralSetting()
+{
+	return STATUS_OVERLAYS_NEUTRAL[overlayNeutralIndex];
 }
 
 

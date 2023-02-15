@@ -636,7 +636,7 @@ void Engine::Step(bool isActive)
 
 	// Create the status overlays.
 	statuses.clear();
-	if(isActive && Preferences::Has("Show status overlays"))
+	if(isActive && Preferences::StatusOverlaysAllSetting() != "off")
 		for(const auto &it : ships)
 		{
 			if(!it->GetGovernment() || it->GetSystem() != currentSystem || it->Cloaking() == 1.)
@@ -645,13 +645,50 @@ void Engine::Step(bool isActive)
 			if(it->IsDestroyed())
 				continue;
 
-			bool isEnemy = it->GetGovernment()->IsEnemy();
-			if(isEnemy || it->IsYours() || it->GetPersonality().IsEscort())
+			if(it == player.FlagshipPtr() && Preferences::StatusOverlayFlagshipSetting() != "off")
 			{
+				if(Preferences::StatusOverlayFlagshipSetting() == "damaged" && !it->IsDamaged())
+					continue;
+				double width = min(it->Width(), it->Height());
+				statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
+					min(it->Hull(), it->DisabledHull()), max(20., width * .5), false);
+				statuses.emplace_back()
+
+			}
+			else if(it->GetPersonality().IsEscort() && Preferences::StatusOverlaysEscortSetting() != "off")
+			{
+				if(Preferences::StatusOverlaysEscortSetting() == "damaged" && !it->IsDamaged())
+					continue;
+				double width = min(it->Width(), it->Height());
+				statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
+					min(it->Hull(), it->DisabledHull()), max(20., width * .5), false);
+
+			}
+			else if(it->GetGovernment()->IsEnemy() && Preferences::StatusOverlaysEnemySetting() != "off")
+			{
+				if(Preferences::StatusOverlaysEnemySetting() == "damaged" && !it->IsDamaged())
+					continue;
+				double width = min(it->Width(), it->Height());
+				statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
+					min(it->Hull(), it->DisabledHull()), max(20., width * .5), true);
+
+			}
+			else if(Preferences::StatusOverlaysNeutralSetting() != "off")
+			{
+				if(Preferences::StatusOverlaysNeutralSetting() == "damaged" && !it->IsDamaged())
+					continue;
+				double width = min(it->Width(), it->Height());
+				statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
+					min(it->Hull(), it->DisabledHull()), max(20., width * .5), false);
+
+			}
+			//if(isEnemy || it->IsYours() || it->GetPersonality().IsEscort())
+			//{
+				bool isEnemy = true;
 				double width = min(it->Width(), it->Height());
 				statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
 					min(it->Hull(), it->DisabledHull()), max(20., width * .5), isEnemy);
-			}
+			//}
 		}
 
 	// Create missile overlays.

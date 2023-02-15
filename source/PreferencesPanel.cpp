@@ -54,6 +54,11 @@ namespace {
 	const string AUTO_AIM_SETTING = "Automatic aimimg";
 	const string SCREEN_MODE_SETTING = "Screen mode";
 	const string VSYNC_SETTING = "VSync";
+	const string STATUS_OVERLAYS_ALL = "Show status overlays";
+	const string STATUS_OVERLAYS_FLAGSHIP = "   Show flagship overlay";
+	const string STATUS_OVERLAYS_ESCORT = "   Show escort overlays";
+	const string STATUS_OVERLAYS_ENEMY = "   Show enemy overlays";
+	const string STATUS_OVERLAYS_NEUTRAL = "   Show neutral overlays";
 	const string EXPEND_AMMO = "Escorts expend ammo";
 	const string TURRET_TRACKING = "Turret tracking";
 	const string FOCUS_PREFERENCE = "Turrets focus fire";
@@ -67,7 +72,7 @@ namespace {
 	const string ALERT_INDICATOR = "Alert indicator";
 
 	// How many pages of settings there are.
-	const int SETTINGS_PAGE_COUNT = 1;
+	const int SETTINGS_PAGE_COUNT = 2;
 }
 
 
@@ -207,6 +212,16 @@ bool PreferencesPanel::Click(int x, int y, int clicks)
 					GetUI()->Push(new Dialog(
 						"Unable to change VSync state. (Your system's graphics settings may be controlling it instead.)"));
 			}
+			else if(zone.Value() == STATUS_OVERLAYS_ALL)
+				Preferences::ToggleStatusOverlaysAll();
+			else if(zone.Value() == STATUS_OVERLAYS_FLAGSHIP)
+				Preferences::ToggleStatusOverlayFlagship();
+			else if(zone.Value() == STATUS_OVERLAYS_ESCORT)
+				Preferences::ToggleStatusOverlaysEscort();
+			else if(zone.Value() == STATUS_OVERLAYS_ENEMY)
+				Preferences::ToggleStatusOverlaysEnemy();
+			else if(zone.Value() == STATUS_OVERLAYS_NEUTRAL)
+				Preferences::ToggleStatusOverlaysNeutral();
 			else if(zone.Value() == AUTO_AIM_SETTING)
 				Preferences::ToggleAutoAim();
 			else if(zone.Value() == EXPEND_AMMO)
@@ -483,7 +498,11 @@ void PreferencesPanel::DrawSettings()
 		VIEW_ZOOM_FACTOR,
 		SCREEN_MODE_SETTING,
 		VSYNC_SETTING,
-		"Show status overlays",
+		STATUS_OVERLAYS_ALL,
+		STATUS_OVERLAYS_FLAGSHIP,
+		STATUS_OVERLAYS_ESCORT,
+		STATUS_OVERLAYS_ENEMY,
+		STATUS_OVERLAYS_NEUTRAL,
 		"Show missile overlays",
 		"Highlight player's flagship",
 		"Rotate flagship in HUD",
@@ -491,7 +510,7 @@ void PreferencesPanel::DrawSettings()
 		"Show mini-map",
 		"Show asteroid scanner overlay",
 		"Always underline shortcuts",
-		"",
+		"\t",
 		"AI",
 		AUTO_AIM_SETTING,
 		"Automatic firing",
@@ -499,7 +518,7 @@ void PreferencesPanel::DrawSettings()
 		EXPEND_AMMO,
 		FIGHTER_REPAIR,
 		TURRET_TRACKING,
-		"\t",
+		"\n",
 		"Performance",
 		"Show CPU / GPU load",
 		"Render motion blur",
@@ -509,7 +528,7 @@ void PreferencesPanel::DrawSettings()
 		BACKGROUND_PARALLAX,
 		"Show hyperspace flash",
 		SHIP_OUTLINES,
-		"",
+		"\t",
 		"Other",
 		"Clickable radar display",
 		"Hide unexplored map regions",
@@ -586,6 +605,31 @@ void PreferencesPanel::DrawSettings()
 		else if(setting == VSYNC_SETTING)
 		{
 			text = Preferences::VSyncSetting();
+			isOn = text != "off";
+		}
+		else if(setting == STATUS_OVERLAYS_ALL)
+		{
+			text = Preferences::StatusOverlaysAllSetting();
+			isOn = text != "off";
+		}
+		else if(setting == STATUS_OVERLAYS_FLAGSHIP)
+		{
+			text = Preferences::StatusOverlayFlagshipSetting();
+			isOn = text != "off";
+		}
+		else if(setting == STATUS_OVERLAYS_ESCORT)
+		{
+			text = Preferences::StatusOverlaysEscortSetting();
+			isOn = text != "off";
+		}
+		else if(setting == STATUS_OVERLAYS_ENEMY)
+		{
+			text = Preferences::StatusOverlaysEnemySetting();
+			isOn = text != "off";
+		}
+		else if(setting == STATUS_OVERLAYS_NEUTRAL)
+		{
+			text = Preferences::StatusOverlaysNeutralSetting();
 			isOn = text != "off";
 		}
 		else if(setting == AUTO_AIM_SETTING)

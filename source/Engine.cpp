@@ -646,47 +646,13 @@ void Engine::Step(bool isActive)
 				continue;
 
 			if(it == player.FlagshipPtr())
-				EmplaceStatusOverlay(*it, Preferences::StatusOverlayFlagshipSetting(), 0);
+				EmplaceStatusOverlays(it, Preferences::StatusOverlayFlagshipSetting(), 0);
 			else if(it->GetPersonality().IsEscort())
-				EmplaceStatusOverlay(*it, Preferences::StatusOverlaysEscortSetting(), 0);
+				EmplaceStatusOverlays(it, Preferences::StatusOverlaysEscortSetting(), 0);
 			else if(it->GetGovernment()->IsEnemy())
-				EmplaceStatusOverlay(*it, Preferences::StatusOverlaysEnemySetting(), 1);
+				EmplaceStatusOverlays(it, Preferences::StatusOverlaysEnemySetting(), 1);
 			else
-				EmplaceStatusOverlay(*it, Preferences::StatusOverlaysNeutralSetting(), 2);
-			{
-				if(Preferences::StatusOverlayFlagshipSetting() == "damaged" && !it->IsDamaged())
-					continue;
-				double width = min(it->Width(), it->Height());
-				statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
-					min(it->Hull(), it->DisabledHull()), max(20., width * .5), false);
-			}
-			else if(it->GetPersonality().IsEscort() && Preferences::StatusOverlaysEscortSetting() != "off")
-			{
-				if(Preferences::StatusOverlaysEscortSetting() == "damaged" && !it->IsDamaged())
-					continue;
-				double width = min(it->Width(), it->Height());
-				statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
-					min(it->Hull(), it->DisabledHull()), max(20., width * .5), false);
-
-			}
-			else if(it->GetGovernment()->IsEnemy() && Preferences::StatusOverlaysEnemySetting() != "off")
-			{
-				if(Preferences::StatusOverlaysEnemySetting() == "damaged" && !it->IsDamaged())
-					continue;
-				double width = min(it->Width(), it->Height());
-				statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
-					min(it->Hull(), it->DisabledHull()), max(20., width * .5), true);
-
-			}
-			else if(Preferences::StatusOverlaysNeutralSetting() != "off")
-			{
-				if(Preferences::StatusOverlaysNeutralSetting() == "damaged" && !it->IsDamaged())
-					continue;
-				double width = min(it->Width(), it->Height());
-				statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
-					min(it->Hull(), it->DisabledHull()), max(20., width * .5), 2);
-
-			}
+				EmplaceStatusOverlays(it, Preferences::StatusOverlaysNeutralSetting(), 2);
 		}
 
 	// Create missile overlays.
@@ -2581,6 +2547,17 @@ void Engine::DoGrudge(const shared_ptr<Ship> &target, const Government *attacker
 
 
 
+void Engine::EmplaceStatusOverlays(const shared_ptr<Ship> &it, const std::string &setting, int value)
+{
+	if(setting == "off" || (setting == "damaged" && !it->IsDamaged()))
+		return;
+	double width = min(it->Width(), it->Height());
+	statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
+		min(it->Hull(), it->DisabledHull()), max(20., width * .5), value);
+}
+
+
+
 // Constructor for the ship status display rings.
 Engine::Status::Status(const Point &position, double outer, double inner,
 	double disabled, double radius, int type, double angle)
@@ -2589,12 +2566,3 @@ Engine::Status::Status(const Point &position, double outer, double inner,
 }
 
 
-
-void Engine::EmplaceStatusOverlays(Ship it&, std::string setting&, int value)
-{
-	if(setting == "damaged" && !it->IsDamaged())
-		continue;
-	double width = min(it->Width(), it->Height());
-	statuses.emplace_back(it->Position() - center, it->Shields(), it->Hull(),
-		min(it->Hull(), it->DisabledHull()), max(20., width * .5), false);
-}

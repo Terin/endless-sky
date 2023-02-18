@@ -85,15 +85,15 @@ public:
 	static VSync VSyncState();
 	static const std::string &VSyncSetting();
 
-	static void ToggleStatusOverlaysAll();
+	static void SetStatusOverlaysAll(int index);
 	static const std::string &StatusOverlaysAllSetting();
-	static void ToggleStatusOverlayFlagship();
+	static void SetStatusOverlayFlagship(int index);
 	static const std::string &StatusOverlayFlagshipSetting();
-	static void ToggleStatusOverlaysEscort();
+	static void SetStatusOverlaysEscort(int index);
 	static const std::string &StatusOverlaysEscortSetting();
-	static void ToggleStatusOverlaysEnemy();
+	static void SetStatusOverlaysEnemy(int index);
 	static const std::string &StatusOverlaysEnemySetting();
-	static void ToggleStatusOverlaysNeutral();
+	static void SetStatusOverlaysNeutral(int index);
 	static const std::string &StatusOverlaysNeutralSetting();
 
 	// Auto aim setting, either "off", "always on", or "when firing".

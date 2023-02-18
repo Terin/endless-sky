@@ -213,15 +213,15 @@ bool PreferencesPanel::Click(int x, int y, int clicks)
 						"Unable to change VSync state. (Your system's graphics settings may be controlling it instead.)"));
 			}
 			else if(zone.Value() == STATUS_OVERLAYS_ALL)
-				Preferences::ToggleStatusOverlaysAll();
+				Preferences::SetStatusOverlaysAll(-1);
 			else if(zone.Value() == STATUS_OVERLAYS_FLAGSHIP)
-				Preferences::ToggleStatusOverlayFlagship();
+				Preferences::SetStatusOverlayFlagship(-1);
 			else if(zone.Value() == STATUS_OVERLAYS_ESCORT)
-				Preferences::ToggleStatusOverlaysEscort();
+				Preferences::SetStatusOverlaysEscort(-1);
 			else if(zone.Value() == STATUS_OVERLAYS_ENEMY)
-				Preferences::ToggleStatusOverlaysEnemy();
+				Preferences::SetStatusOverlaysEnemy(-1);
 			else if(zone.Value() == STATUS_OVERLAYS_NEUTRAL)
-				Preferences::ToggleStatusOverlaysNeutral();
+				Preferences::SetStatusOverlaysNeutral(-1);
 			else if(zone.Value() == AUTO_AIM_SETTING)
 				Preferences::ToggleAutoAim();
 			else if(zone.Value() == EXPEND_AMMO)

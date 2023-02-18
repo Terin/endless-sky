@@ -52,16 +52,16 @@ namespace {
 	const vector<string> STATUS_OVERLAYS_ALL = {"off", "damaged", "on", "--"};
 	int overlayAllIndex = 0;
 
-	const vector<string> STATUS_OVERLAYS_FLAGSHIP = {"off", "damaged", "on"};
+	const vector<string> STATUS_OVERLAYS_FLAGSHIP = {"off", "damaged", "on", "--"};
 	int overlayFlagshipIndex = 0;
 
-	const vector<string> STATUS_OVERLAYS_ESCORT = {"off", "damaged", "on"};
+	const vector<string> STATUS_OVERLAYS_ESCORT = {"off", "damaged", "on", "--"};
 	int overlayEscortIndex = 0;
 
-	const vector<string> STATUS_OVERLAYS_ENEMY = {"off", "damaged", "on"};
+	const vector<string> STATUS_OVERLAYS_ENEMY = {"off", "damaged", "on", "--"};
 	int overlayEnemyIndex = 0;
 
-	const vector<string> STATUS_OVERLAYS_NEUTRAL = {"off", "damaged", "on"};
+	const vector<string> STATUS_OVERLAYS_NEUTRAL = {"off", "damaged", "on", "--"};
 	int overlayNeutralIndex = 0;
 
 	const vector<string> AUTO_AIM_SETTINGS = {"off", "always on", "when firing"};
@@ -121,6 +121,14 @@ void Preferences::Load()
 			vsyncIndex = max<int>(0, min<int>(node.Value(1), VSYNC_SETTINGS.size() - 1));
 		else if(node.Token(0) == "Show status overlays")
 			overlayAllIndex = max<int>(0, min<int>(node.Value(1), STATUS_OVERLAYS_ALL.size() - 1));
+		else if(node.Token(0) == "Show flagship overlay")
+			overlayFlagshipIndex = max<int>(0, min<int>(node.Value(1), STATUS_OVERLAYS_FLAGSHIP.size() - 1));
+		else if(node.Token(0) == "Show escort overlays")
+			overlayEscortIndex = max<int>(0, min<int>(node.Value(1), STATUS_OVERLAYS_ESCORT.size() - 1));
+		else if(node.Token(0) == "Show enemy overlays")
+			overlayEnemyIndex = max<int>(0, min<int>(node.Value(1), STATUS_OVERLAYS_ENEMY.size() - 1));
+		else if(node.Token(0) == "Show neutral overlays")
+			overlayNeutralIndex = max<int>(0, min<int>(node.Value(1), STATUS_OVERLAYS_NEUTRAL.size() - 1));
 		else if(node.Token(0) == "Automatic aiming")
 			autoAimIndex = max<int>(0, min<int>(node.Value(1), AUTO_AIM_SETTINGS.size() - 1));
 		else if(node.Token(0) == "Parallax background")
@@ -349,12 +357,21 @@ const string &Preferences::VSyncSetting()
 
 
 
-void Preferences::ToggleStatusOverlaysAll()
+void Preferences::SetStatusOverlaysAll(int index)
 {
-	int targetIndex = overlayAllIndex + 1;
-	if(targetIndex == static_cast<int>(STATUS_OVERLAYS_ALL.size()))
-		targetIndex = 0;
-	overlayAllIndex = targetIndex;
+	if(index == -1)
+	{
+		int targetIndex = overlayAllIndex + 1;
+		if(targetIndex == static_cast<int>(STATUS_OVERLAYS_ALL.size() - 1))
+			targetIndex = 0;
+		overlayAllIndex = targetIndex;
+		SetStatusOverlayFlagship(targetIndex);
+		SetStatusOverlaysEscort(targetIndex);
+		SetStatusOverlaysEnemy(targetIndex);
+		SetStatusOverlaysNeutral(targetIndex);
+	}
+	else
+		overlayAllIndex = index;
 }
 
 
@@ -366,12 +383,18 @@ const string &Preferences::StatusOverlaysAllSetting()
 
 
 
-void Preferences::ToggleStatusOverlayFlagship()
+void Preferences::SetStatusOverlayFlagship(int index)
 {
-	int targetIndex = overlayFlagshipIndex + 1;
-	if(targetIndex == static_cast<int>(STATUS_OVERLAYS_FLAGSHIP.size()))
-		targetIndex = 0;
-	overlayFlagshipIndex = targetIndex;
+	if(index == -1)
+	{
+		int targetIndex = overlayFlagshipIndex + 1;
+		if(targetIndex == static_cast<int>(STATUS_OVERLAYS_FLAGSHIP.size()))
+			targetIndex = 0;
+		overlayFlagshipIndex = targetIndex;
+
+	}
+	else
+		overlayFlagshipIndex = index;
 }
 
 
@@ -383,12 +406,17 @@ const string &Preferences::StatusOverlayFlagshipSetting()
 
 
 
-void Preferences::ToggleStatusOverlaysEscort()
+void Preferences::SetStatusOverlaysEscort(int index)
 {
-	int targetIndex = overlayEscortIndex + 1;
-	if(targetIndex == static_cast<int>(STATUS_OVERLAYS_ESCORT.size()))
-		targetIndex = 0;
-	overlayEscortIndex = targetIndex;
+	if(index == -1)
+	{
+		int targetIndex = overlayEscortIndex + 1;
+		if(targetIndex == static_cast<int>(STATUS_OVERLAYS_ESCORT.size()))
+			targetIndex = 0;
+		overlayEscortIndex = targetIndex;
+	}
+	else
+		overlayEscortIndex = index;
 }
 
 
@@ -400,12 +428,17 @@ const string &Preferences::StatusOverlaysEscortSetting()
 
 
 
-void Preferences::ToggleStatusOverlaysEnemy()
+void Preferences::SetStatusOverlaysEnemy(int index)
 {
-	int targetIndex = overlayEnemyIndex + 1;
-	if(targetIndex == static_cast<int>(STATUS_OVERLAYS_ENEMY.size()))
-		targetIndex = 0;
-	overlayEnemyIndex = targetIndex;
+	if(index == -1)
+	{
+		int targetIndex = overlayEnemyIndex + 1;
+		if(targetIndex == static_cast<int>(STATUS_OVERLAYS_ENEMY.size()))
+			targetIndex = 0;
+		overlayEnemyIndex = targetIndex;
+		}
+	else
+		overlayEnemyIndex = index;
 }
 
 
@@ -417,12 +450,17 @@ const string &Preferences::StatusOverlaysEnemySetting()
 
 
 
-void Preferences::ToggleStatusOverlaysNeutral()
+void Preferences::SetStatusOverlaysNeutral(int index)
 {
-	int targetIndex = overlayNeutralIndex + 1;
-	if(targetIndex == static_cast<int>(STATUS_OVERLAYS_NEUTRAL.size()))
-		targetIndex = 0;
-	overlayNeutralIndex = targetIndex;
+	if(index == -1)
+	{
+		int targetIndex = overlayNeutralIndex + 1;
+		if(targetIndex == static_cast<int>(STATUS_OVERLAYS_NEUTRAL.size()))
+			targetIndex = 0;
+		overlayNeutralIndex = targetIndex;
+		}
+	else
+		overlayNeutralIndex = index;
 }
 
 

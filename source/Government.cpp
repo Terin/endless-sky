@@ -164,10 +164,17 @@ void Government::Load(const DataNode &node)
 		{
 			if(key == "provoked on scan")
 				provokedOnScan = false;
-			else if(key == "reputation max")
-				reputationMax = numeric_limits<double>::max();
-			else if(key == "reputation min")
-				reputationMax = numeric_limits<double>::lowest();
+			else if(key == "reputation")
+			{
+				for(const DataNode &grand : child)
+				{
+					const string &grandKey = grand.Token(0);
+					if(grandKey == "max")
+						reputationMax = numeric_limits<double>::max();
+					else if(grandKey == "min")
+						reputationMin = numeric_limits<double>::lowest();
+				}
+			}
 			else if(key == "raid")
 				raidFleets.clear();
 			else if(key == "display name")
@@ -243,21 +250,27 @@ void Government::Load(const DataNode &node)
 		{
 			for(const DataNode &grand : child)
 			{
-				if(grand.Token(0) == "player reputation" && grand.Size() >= 2)
+				const string &grandKey = grand.Token(0);
+				bool hasGrandValue = grand.Size() >= 2;
+				if(grandKey == "player reputation" && hasGrandValue)
 					initialPlayerReputation = add ? initialPlayerReputation + child.Value(valueIndex) : child.Value(valueIndex);
-				else if(grand.Token(0) == "max" && grand.Size() >= 2)
+				else if(grandKey == "max" && hasGrandValue)
 					reputationMax = add ? reputationMax + grand.Value(valueIndex) : grand.Value(valueIndex);
-				else if(grand.Token(0) == "min" && grand.Size() >= 2)
+				else if(grandKey == "min" && hasGrandValue)
 					reputationMin = add ? reputationMin + grand.Value(valueIndex) : grand.Value(valueIndex);
-				else if(grand.Token(0) == "max gain multiplier" && grand.Size() >= 2)
+				else if(grandKey == "max" && hasGrandValue)
+					reputationMax = add ? reputationMax + grand.Value(valueIndex) : grand.Value(valueIndex);
+				else if(grandKey == "min" && hasGrandValue)
+					reputationMin = add ? reputationMin + grand.Value(valueIndex) : grand.Value(valueIndex);
+				else if(grandKey == "max gain multiplier" && hasGrandValue)
 					maxGainMultiplier = add ? maxGainMultiplier + grand.Value(valueIndex) : grand.Value(valueIndex);
-				else if(grand.Token(0) == "min gain multiplier" && grand.Size() >= 2)
+				else if(grandKey == "min gain multiplier" && hasGrandValue)
 					minGainMultiplier = add ? minGainMultiplier + grand.Value(valueIndex) : grand.Value(valueIndex);
-				else if(grand.Token(0) == "max loss multiplier" && grand.Size() >= 2)
+				else if(grandKey == "max loss multiplier" && hasGrandValue)
 					maxLossMultiplier = add ? maxLossMultiplier + grand.Value(valueIndex) : grand.Value(valueIndex);
-				else if(grand.Token(0) == "min loss multiplier" && grand.Size() >= 2)
+				else if(grandKey == "min loss multiplier" && hasGrandValue)
 					minLossMultiplier = add ? minLossMultiplier + grand.Value(valueIndex) : grand.Value(valueIndex);
-				else if(grand.Token(0) == "deadzone" && grand.Size() >= 3)
+				else if(grandKey == "deadzone" && grand.Size() >= 3)
 				{
 					maxDeadzone = add ? maxDeadzone + grand.Value(valueIndex) : grand.Value(valueIndex);
 					minDeadzone = add ? minDeadzone + grand.Value(valueIndex + 1) : grand.Value(valueIndex + 1);

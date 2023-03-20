@@ -50,7 +50,8 @@ namespace {
 	// Check if the ship evades being outfit scanned.
 	bool EvadesOutfitScan(const Ship &ship)
 	{
-		return Random::Real() > 1. / (1. + ship.Attributes().Get("scan interference"));
+		return ship.Attributes().Get("inscrutable") > 0. ||
+				Random::Real() > 1. / (1. + ship.Attributes().Get("scan interference"));
 	}
 }
 
@@ -341,8 +342,8 @@ void Politics::AddReputation(const Government *gov, double value)
 void Politics::SetReputation(const Government *gov, double value)
 {
 	CalculateMultipliers(gov);
-	double newValue = value > 0 ? value * reputationGainMultiplier[gov]
-		: value * reputationLossMultiplier[gov];
+	//double newValue = value > 0 ? value * reputationGainMultiplier[gov]
+		//: value * reputationLossMultiplier[gov];
 	value > 0 ? reputationWith[gov] = value * reputationGainMultiplier[gov]
 		: reputationWith[gov] = value * reputationLossMultiplier[gov];
 	if(reputationWith[gov] > gov->ReputationMax())
